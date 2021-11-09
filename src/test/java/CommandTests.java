@@ -70,7 +70,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("010100041234"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(10)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(8)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -84,6 +84,7 @@ public class CommandTests {
         }
         System.out.println(rapdu.getSw());
         System.out.println(rapdu.getResp());
+        Assert.assertEquals(rapdu.getResp(),"1234");
         Assert.assertEquals(rapdu.getSw(),"9000");
     }
 
@@ -95,7 +96,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("01010003123"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -118,7 +119,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("020002041234"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -141,7 +142,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("020102"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(10)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(8)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -165,7 +166,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("030110"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -184,7 +185,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("031110"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -203,7 +204,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("030110"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -227,7 +228,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("031110"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -246,7 +247,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("031010"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -265,7 +266,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("0399"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -283,7 +284,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("031010"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -305,7 +306,7 @@ public class CommandTests {
         Thread writeThread = new Thread(()->services.sendCommand("0399"));
         writeThread.start();
 
-        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(6)));
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
