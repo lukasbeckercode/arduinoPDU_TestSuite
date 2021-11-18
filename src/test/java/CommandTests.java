@@ -90,7 +90,7 @@ public class CommandTests {
 
 
     @SuppressWarnings("BusyWait")
-    @Test(testName = "Echo Test")
+    @Test(testName = "Echo Test with wrong data")
     public void t0101_Echo_2() throws InterruptedException {
         RAPDU rapdu = new RAPDU();
         Thread writeThread = new Thread(()->services.sendCommand("01010003123"));
@@ -159,7 +159,7 @@ public class CommandTests {
         Assert.assertEquals(rapdu.getSw(),"9000");
     }
 
-    @Test(testName = "pin status test")
+    @Test(testName = "set pin to high")
     public void t0300_pinHigh() throws InterruptedException {
         RAPDU rapdu = new RAPDU();
 
@@ -299,6 +299,301 @@ public class CommandTests {
         System.out.println(rapdu.getSw());
         Assert.assertEquals(rapdu.getSw(),"9000");
     }
+
+    @Test(testName = "test specific pin reset")
+    public void t0390_pinHigh() throws InterruptedException {
+        RAPDU rapdu = new RAPDU();
+
+        Thread writeThread = new Thread(()->services.sendCommand("031110"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("031010"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6985");
+
+
+        writeThread = new Thread(()->services.sendCommand("039910"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+
+        writeThread = new Thread(()->services.sendCommand("031010"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+    }
+
+    @Test(testName = "test analogOut::BestCase::BC_WrongDataLength")
+    public void t0303_analogOut() throws InterruptedException {
+        RAPDU rapdu = new RAPDU();
+
+        Thread writeThread = new Thread(()->services.sendCommand("031110"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("030310040512"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+
+
+        writeThread = new Thread(()->services.sendCommand("0303100212"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6700");
+
+    }
+
+    @Test(testName = "test analogOut with wrong pin status::BC_pinUnavailable")
+    public void t0303_analogOut_2() throws InterruptedException {
+        RAPDU rapdu = new RAPDU();
+
+        Thread writeThread = new Thread(()->services.sendCommand("031010"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("030310040512"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6986");
+
+
+        writeThread = new Thread(()->services.sendCommand("039910"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+
+        writeThread = new Thread(()->services.sendCommand("031110"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+
+        writeThread = new Thread(()->services.sendCommand("030310040512"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+
+    }
+
+    @Test(testName = "test analogOut on non-pwm pin::BC_???")
+    public void t0303_analogOut_3() throws InterruptedException {
+        //TODO: not yet implemented on arduino side
+        RAPDU rapdu = new RAPDU();
+
+        Thread writeThread = new Thread(()->services.sendCommand("031108"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("030308040512"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6986");
+    }
+
+
+
+
+
+
+
+
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
     @AfterMethod
     public void reset() throws InterruptedException {
         RAPDU rapdu = new RAPDU();
