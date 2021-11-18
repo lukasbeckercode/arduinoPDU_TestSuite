@@ -582,7 +582,48 @@ public class CommandTests {
         Assert.assertEquals(rapdu.getSw(),"6986");
     }
 
+    @Test(testName = "test analogIn::BestCase")
+    public void t0304_analogIn() throws InterruptedException {
+        //TODO: not yet implemented on arduino side
+        RAPDU rapdu = new RAPDU();
 
+        Thread writeThread = new Thread(()->services.sendCommand("03106500"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("03046500"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"9000");
+    }
 
 
 
