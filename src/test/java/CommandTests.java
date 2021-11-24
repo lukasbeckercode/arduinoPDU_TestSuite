@@ -544,7 +544,7 @@ public class CommandTests {
         //TODO: not yet implemented on arduino side
         RAPDU rapdu = new RAPDU();
 
-        Thread writeThread = new Thread(()->services.sendCommand("031108"));
+        Thread writeThread = new Thread(()->services.sendCommand("031104"));
         writeThread.start();
 
         Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
@@ -563,7 +563,7 @@ public class CommandTests {
         Assert.assertEquals(rapdu.getSw(),"9000");
         System.out.println(rapdu.getSw());
 
-        writeThread = new Thread(()->services.sendCommand("030308040512"));
+        writeThread = new Thread(()->services.sendCommand("030304040512"));
         writeThread.start();
 
         readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
@@ -584,10 +584,9 @@ public class CommandTests {
 
     @Test(testName = "test analogIn::BestCase")
     public void t0304_analogIn() throws InterruptedException {
-        //TODO: not yet implemented on arduino side
         RAPDU rapdu = new RAPDU();
 
-        Thread writeThread = new Thread(()->services.sendCommand("03106500"));
+        Thread writeThread = new Thread(()->services.sendCommand("031014"));
         writeThread.start();
 
         Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
@@ -606,10 +605,10 @@ public class CommandTests {
         Assert.assertEquals(rapdu.getSw(),"9000");
         System.out.println(rapdu.getSw());
 
-        writeThread = new Thread(()->services.sendCommand("03046500"));
+        writeThread = new Thread(()->services.sendCommand("030414"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(8)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -625,7 +624,47 @@ public class CommandTests {
         Assert.assertEquals(rapdu.getSw(),"9000");
     }
 
+    @Test(testName = "test analogIn::BC::NonAnalogPin")
+    public void t0304_analogIn_Non_Analog_Pin() throws InterruptedException {
+        RAPDU rapdu = new RAPDU();
 
+        Thread writeThread = new Thread(()->services.sendCommand("031012"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+
+        writeThread = new Thread(()->services.sendCommand("030412"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6987");
+    }
 
 
 
