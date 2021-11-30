@@ -608,7 +608,7 @@ public class CommandTests {
         writeThread = new Thread(()->services.sendCommand("030414"));
         writeThread.start();
 
-        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(8)));
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(7)));
 
         while (port.bytesAvailable() == 0){
             //noinspection BusyWait
@@ -665,7 +665,67 @@ public class CommandTests {
         System.out.println(rapdu.getSw());
         Assert.assertEquals(rapdu.getSw(),"6987");
     }
+    @Test(testName = "test delay::GoodCase")
+    public void t0102_delay_GC() throws InterruptedException {
+        RAPDU rapdu = new RAPDU();
 
+        Thread writeThread = new Thread(()->services.sendCommand("010200041000"));
+        writeThread.start();
+
+        Thread readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9099");
+        System.out.println(rapdu.getSw());
+
+
+        Thread.sleep(1000);
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+
+        Assert.assertEquals(rapdu.getSw(),"9000");
+        System.out.println(rapdu.getSw());
+        /*
+        writeThread = new Thread(()->services.sendCommand("030412"));
+        writeThread.start();
+
+        readThread = new Thread(()-> rapdu.setRapdu(services.readResponse(4)));
+
+        while (port.bytesAvailable() == 0){
+            //noinspection BusyWait
+            Thread.sleep(20);
+        }
+
+        readThread.start();
+
+        while (readThread.isAlive()){
+            //Empty Body: Wait for other thread to finish
+        }
+        System.out.println(rapdu.getSw());
+        Assert.assertEquals(rapdu.getSw(),"6987");
+        */
+
+    }
 
 
 
